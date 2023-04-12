@@ -1,56 +1,60 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="UTF-8"/>
+        <title>How to create currency converter</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+        <link rel="stylesheet" href="/static/style.css"/>
+        <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
 <body>
-<h1>Currency Converter</h1>
 
-
-<select id="from">
-    <#list data as item>
-    <#--    <h2>${item.currencyName}</h2>-->
-        <option value="${item.currencyName}">${item.currencyName}</option>
-    </#list>
-</select>
-
-<select id="to">
-    <#list data as item>
-    <#--    <h2>${item.currencyName}</h2>-->
-        <option value="${item.currencyName}">${item.currencyName}</option>
-    </#list>
-</select>
-
-<input id="inputAmount" type="text">
-
-<button type="submit" id="demo">GET Somthing</button>
-<h1 id="amount">0.0</h1>
-
-
+<!-- Add Main.js File -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script src="/static/main.js"></script>
 
-<script type="text/javascript">
+<div class="currency-row-outer">
+        <div class="currency-converter">
+                <h2>Currency Converter</h2>
 
-    $(document).ready(function () {
-        $("#demo").click(function () {
-            const from = document.getElementById("from").value;
-            const to = document.getElementById("to").value
-            const amountInput = document.getElementById("inputAmount").value
-            $(document).ready(function () {
-                $.ajax({
-                    url: "/convert/" + from + "/" + to + "/"+ amountInput,
-                    type: 'GET',
-                    dataType: 'json', // added data type
-                    success: function (res) {
-                        console.log(res.value);
-                        setTimeout(function () {
-                            // Whatever you want to do after the wait
-                            document.getElementById('amount').innerHTML = res.value;
-                        },200);
-                        document.getElementById('amount').innerHTML = "Loading...";
+                <div class="field grid-50-50">
+                        <div class="colmun col-left">
+                                <input type="number" class="form-input" id="inputAmount" placeholder="00000">
+                        </div>
+                        <div class="colmun col-right">
+                                <div class="select">
+                                        <select id="from" class="currency">
+                                                <#list data as item>
+                                                        <option value="${item.currencyName}">${item.currencyName}</option>
+                                                </#list>
+                                        </select>
+                                </div>
+                        </div>
+                </div>
 
-                    }
-                });
-            });
-        });
-    });
+                <div class="field grid-50-50">
+                        <div class="colmun col-left">
+                                <input type="text" class="form-input" id="amount" placeholder="00000" disabled>
+                        </div>
+                        <div class="colmun col-right">
+                                <div class="select">
+                                        <select id="to" class="currency" >
+                                                <#list data as item>
+                                                        <option value="${item.currencyName}">${item.currencyName}</option>
+                                                </#list>
+                                        </select>
+                                </div>
+                        </div>
+                </div>
 
-</script>
+                <div class="field grid-50-50">
+                        <button class="ui-button"  type="button" id="btnConvert">Convert</button>
+                </div>
+
+
+        </div>
+</div>
 </body>
 </html>
