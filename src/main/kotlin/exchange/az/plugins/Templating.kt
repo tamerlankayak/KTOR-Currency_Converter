@@ -6,6 +6,8 @@ import exchange.az.model.Currencies
 import exchange.az.model.CurrenciesItem
 import exchange.az.model.Result
 import exchange.az.model.ResultItem
+import exchange.az.service.configService
+import exchange.az.util.Constants.API_KEY
 import exchange.az.util.Constants.BASE_URL
 import exchange.az.util.Constants.LIST_OF_CURRENCIES
 import freemarker.cache.*
@@ -35,49 +37,33 @@ fun Application.configureTemplating() {
         }
 
         get("/") {
-            val client = HttpClient(CIO) {
-                install(ContentNegotiation) {
-                    gson()
-                }
-            }
-            val response: HttpResponse = client.get(BASE_URL + LIST_OF_CURRENCIES)
-            client.close()
 
+            val response: HttpResponse = configService(BASE_URL + LIST_OF_CURRENCIES)
             val curr: Currencies = response.body()
-
             val item = listOf(curr)
             val currList = ArrayList<CurrenciesItem>()
-
 
             item.forEach {
                 it.currencies.forEach { (t) ->
                     currList.add(CurrenciesItem(t))
                 }
             }
-
             call.respond(FreeMarkerContent("index.ftl", mapOf("data" to currList.sortedBy { it.currencyName }), ""))
-
         }
 
 
         get("/convert/{from}/{to}/{inputAmount}") {
-            val client = HttpClient(CIO) {
-                install(ContentNegotiation) {
-                    gson()
-                }
-            }
+
             val from = call.parameters["from"]
             val to = call.parameters["to"]
             val amount = call.parameters["inputAmount"]
-            println("amount:" + amount)
+
             val response: HttpResponse =
-                client.get("https://api.fastforex.io/convert?from=${from}&to=${to}&amount=${amount}&api_key=a50e450774-047e7c3ee4-rszo4u")
+                configService("${BASE_URL}/convert?from=${from}&to=${to}&amount=${amount}&api_key=${API_KEY}")
             val result: Result = response.body()
             val gson = Gson()
 
             call.respond(gson.toJson(ResultItem(result.result.entries.first().value.toString())))
-            client.close()
-
 
         }
 
