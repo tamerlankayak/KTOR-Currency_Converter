@@ -36,6 +36,7 @@ fun Application.configureTemplating() {
             resources("files")
         }
 
+        //getting all currecies list from api
         get("/") {
 
             val response: HttpResponse = configService(BASE_URL + LIST_OF_CURRENCIES)
