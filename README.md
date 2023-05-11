@@ -40,7 +40,7 @@ The app was built using the following technologies:
 - Ktor framework for server-side development.
 - HTML and CSS for the user interface.
 - JavaScript for client-side functionality.
-- OpenExchangeRates API for currency conversion and exchange rate data.
+- Fastforex API for currency conversion and exchange rate data.
 
 ## Contributing
 
@@ -50,26 +50,7 @@ If you'd like to contribute to the app, please follow these guidelines:
 2. Create a new branch for your changes.
 3. Make your changes and commit them to your branch.
 4. Create a pull request and describe your changes.
-
-## License
-
-This app is licensed under the MIT License. See the [LICENSE](./LICENSE) file for details.
+5. NOTE:API_KEY will expired 18 april 2023.
 
 
-Used technologies:
 
-Kotlin
-
-KTOR Framework
-
-HTML
-
-CSS
-
-Javascript
-
-Ajax
-
-Project using public API for converting currencies.
-
-API_KEY will expired 18 april 2023.
